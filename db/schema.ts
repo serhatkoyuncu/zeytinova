@@ -1,0 +1,4 @@
+import { sql } from 'drizzle-orm';
+import { sqliteTable, text, integer, check } from 'drizzle-orm/sqlite-core';
+export const products = sqliteTable('products', {id:text('id').primaryKey(), name:text('name').notNull(), size:text('size').notNull(), description:text('description').notNull(), price:integer('price').notNull(), stock:integer('stock').notNull(), active:integer('active').notNull().default(1), kind:text('kind').notNull().default('bottle')}, (t)=>[check('stock_nonnegative',sql`${t.stock} >= 0`),check('price_positive',sql`${t.price} > 0`)]);
+export const orders = sqliteTable('orders', {id:text('id').primaryKey(), customer:text('customer').notNull(), email:text('email').notNull(), phone:text('phone').notNull(), address:text('address').notNull(), items:text('items').notNull(), total:integer('total').notNull(), status:text('status').notNull().default('Yeni'), createdAt:text('created_at').notNull(), requestId:text('request_id').notNull().unique()});
